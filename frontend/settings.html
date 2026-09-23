@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access-X-AI | Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="page-extra.css">
+</head>
+<body data-page="settings">
+<div class="app-shell">
+<aside class="sidebar">
+    <div class="brand"><span class="brand-mark">Access-X-AI</span><span> </span></div>
+    <nav class="main-nav" aria-label="Main navigation">
+        <a href="dashboard.html" class="nav-link"><span>⌂</span>Dashboard</a>
+        <a href="route-optimizer.html" class="nav-link"><span>⌁</span>Route Optimizer</a>
+        <a href="routes.html" class="nav-link"><span>⌘</span>Routes</a>
+        <a href="drivers.html" class="nav-link"><span>♙</span>Drivers</a>
+        <a href="orders.html" class="nav-link"><span>▤</span>Orders</a>
+        <a href="stops.html" class="nav-link"><span>□</span>Stops</a>
+        <a href="alerts.html" class="nav-link"><span>△</span>Alerts</a>
+        <a href="analytics.html" class="nav-link"><span>▥</span>Analytics</a>
+        <a href="settings.html" class="nav-link"><span>⚙</span>Settings</a>
+    </nav>
+   
+</aside>
+
+<main class="workspace page-content">
+    <header class="topbar">
+        <div><h1>Settings</h1><p>Configure dashboard preferences.</p></div>
+    </header>
+    <div class="view-panel active">
+<div class="view-card" style="max-width:500px;">
+<h3>System Settings</h3><br>
+<div class="input-group" style="margin-bottom:15px;"><label>Distance Units</label><select><option>Kilometers (km)</option><option>Miles (mi)</option></select></div>
+<div class="input-group" style="margin-bottom:15px;"><label>Map Tile Theme</label><select><option>Standard OpenStreetMap</option><option>Dark</option><option>Light</option></select></div>
+<button class="primary" onclick="alert('Preferences saved')">Save Preferences</button>
+</div>
+    </div>
+</main>
+</div>
+<script src="page.js"></script>
+</body>
+</html>

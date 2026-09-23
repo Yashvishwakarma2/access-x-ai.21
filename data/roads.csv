@@ -1,0 +1,13 @@
+road_id,source,destination,distance_km,road_condition,traffic_level,normal_travel_time_hr
+R001,Guwahati,Shillong,99,Good,Medium,3.2
+R002,Shillong,Guwahati,99,Good,Medium,3.2
+R003,Guwahati,Silchar,235,Good,High,6
+R004,Silchar,Aizawl,180,Moderate,Medium,5.5
+R005,Shillong,Imphal,480,poor,Low,12
+R006,Imphal,Kohima,170,Poor,Medium,5
+R007,Guwahati,Itanagar,330,Moderate,Medium,8
+R008,Guwahati,Dibrugarh,440,Good,High,9
+R009,Kohima,Imphal,170,Poor,Medium,5
+R010,Aizawl,Silchar,180,Moderate,Medium,5.5
+
+ 

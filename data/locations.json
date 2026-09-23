@@ -1,0 +1,72 @@
+[
+  {
+    "location_id": "L001",
+    "name": "Guwahati",
+    "state": "Assam",
+    "latitude": 26.1445,
+    "longitude": 91.7362
+  },
+  {
+    "location_id": "L002",
+    "name": "Shillong",
+    "state": "Meghalaya",
+    "latitude": 25.5788,
+    "longitude": 91.8933
+  },
+  {
+    "location_id": "L003",
+    "name": "Imphal",
+    "state": "Manipur",
+    "latitude": 24.817,
+    "longitude": 93.9368
+  },
+  {
+    "location_id": "L004",
+    "name": "Aizawl",
+    "state": "Mizoram",
+    "latitude": 23.7271,
+    "longitude": 92.7176
+  },
+  {
+    "location_id": "L005",
+    "name": "Kohima",
+    "state": "Nagaland",
+    "latitude": 25.6751,
+    "longitude": 94.1086
+  },
+  {
+    "location_id": "L006",
+    "name": "Agartala",
+    "state": "Tripura",
+    "latitude": 23.8315,
+    "longitude": 91.2868
+  },
+  {
+    "location_id": "L007",
+    "name": "Itanagar",
+    "state": "Arunachal Pradesh",
+    "latitude": 27.0844,
+    "longitude": 93.6053
+  },
+  {
+    "location_id": "L008",
+    "name": "Gangtok",
+    "state": "Sikkim",
+    "latitude": 27.3389,
+    "longitude": 88.6065
+  },
+  {
+    "location_id": "L009",
+    "name": "Silchar",
+    "state": "Assam",
+    "latitude": 24.8333,
+    "longitude": 92.7789
+  },
+  {
+    "location_id": "L010",
+    "name": "Dibrugarh",
+    "state": "Assam",
+    "latitude": 27.4728,
+    "longitude": 94.912
+  }
+]

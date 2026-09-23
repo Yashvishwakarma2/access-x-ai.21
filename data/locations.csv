@@ -1,0 +1,12 @@
+location_id,name,state,latitude,longitude
+L001,Guwahati,Assam,26.1445,91.7362
+L002,Shillong,Meghalaya,25.5788,91.8933
+L003,Imphal,Manipur,24.817,93.9368
+L004,Aizawl,Mizoram,23.7271,92.7176
+L005,Kohima,Nagaland,25.6751,94.1086
+L006,Agartala,Tripura,23.8315,91.2868
+L007,Itanagar,Arunachal Pradesh,27.0844,93.6053
+L008,Gangtok,Sikkim,27.3389,88.6065
+L009,Silchar,Assam,24.8333,92.7789
+L010,Dibrugarh,Assam,27.4728,94.912
+L011,Tezpur,Assam,26.6528,92.7926

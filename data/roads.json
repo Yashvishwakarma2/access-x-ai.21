@@ -1,0 +1,92 @@
+[
+  {
+    "road_id": "R001",
+    "source": "Guwahati",
+    "destination": "Shillong",
+    "distance_km": 99,
+    "road_condition": "Good",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 3.2
+  },
+  {
+    "road_id": "R002",
+    "source": "Shillong",
+    "destination": "Guwahati",
+    "distance_km": 99,
+    "road_condition": "Good",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 3.2
+  },
+  {
+    "road_id": "R003",
+    "source": "Guwahati",
+    "destination": "Silchar",
+    "distance_km": 235,
+    "road_condition": "Good",
+    "traffic_level": "High",
+    "normal_travel_time_hr": 6
+  },
+  {
+    "road_id": "R004",
+    "source": "Silchar",
+    "destination": "Aizawl",
+    "distance_km": 180,
+    "road_condition": "Moderate",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 5.5
+  },
+  {
+    "road_id": "R005",
+    "source": "Shillong",
+    "destination": "Imphal",
+    "distance_km": 480,
+    "road_condition": "Moderate",
+    "traffic_level": "Low",
+    "normal_travel_time_hr": 12
+  },
+  {
+    "road_id": "R006",
+    "source": "Imphal",
+    "destination": "Kohima",
+    "distance_km": 170,
+    "road_condition": "Poor",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 5
+  },
+  {
+    "road_id": "R007",
+    "source": "Guwahati",
+    "destination": "Itanagar",
+    "distance_km": 330,
+    "road_condition": "Moderate",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 8
+  },
+  {
+    "road_id": "R008",
+    "source": "Guwahati",
+    "destination": "Dibrugarh",
+    "distance_km": 440,
+    "road_condition": "Good",
+    "traffic_level": "High",
+    "normal_travel_time_hr": 9
+  },
+  {
+    "road_id": "R009",
+    "source": "Kohima",
+    "destination": "Imphal",
+    "distance_km": 170,
+    "road_condition": "Poor",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 5
+  },
+  {
+    "road_id": "R010",
+    "source": "Aizawl",
+    "destination": "Silchar",
+    "distance_km": 180,
+    "road_condition": "Moderate",
+    "traffic_level": "Medium",
+    "normal_travel_time_hr": 5.5
+  }
+]

@@ -1,0 +1,12 @@
+VERCEL DEPLOYMENT PACKAGE
+
+This package keeps the existing application source code unchanged.
+
+Vercel can host the frontend pages (login, dashboard, route optimizer, etc.).
+The existing Flask backend is included but is not automatically run by Vercel.
+The frontend currently points to http://localhost:5000/api, so API-backed features
+will work after the Flask backend is deployed to a server such as Railway and
+the existing API base URL is updated to that public backend URL.
+
+For a strict "no source-code changes" deployment, deploy this package's
+access-x-ai folder to Vercel as the project root.

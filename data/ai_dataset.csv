@@ -1,0 +1,11 @@
+road_id,distance_km,road_condition,traffic_level,weather,risk_level,travel_time_hr,route_score
+R001,99,Good,Medium,Clear,Low,3.2,85
+R002,99,Good,Medium,Clear,Low,3.2,85
+R003,235,Good,High,Clear,Medium,6.0,70
+R004,180,Moderate,Medium,Rain,Medium,5.5,60
+R005,480,Moderate,Low,Clear,Low,12.0,72
+R006,170,Poor,Medium,Rain,High,5.0,40
+R007,330,Moderate,Medium,Clear,Medium,8.0,65
+R008,440,Good,High,Clear,Medium,9.0,68
+R009,170,Poor,Medium,Rain,High,5.0,40
+R010,180,Moderate,Medium,Rain,Medium,5.5,60

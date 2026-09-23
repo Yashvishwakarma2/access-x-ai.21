@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access-X-AI | Route Optimizer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+    <div class="brand"><span class="brand-mark">Access-X-AI</span><span> </span></div>
+    <nav class="main-nav" aria-label="Main navigation">
+        <a href="dashboard.html" class="nav-link"><span>⌂</span>Dashboard</a>
+        <a href="route-optimizer.html" class="nav-link"><span>⌁</span>Route Optimizer</a>
+        <a href="routes.html" class="nav-link"><span>⌘</span>Routes</a>
+        <a href="drivers.html" class="nav-link"><span>♙</span>Drivers</a>
+        <a href="orders.html" class="nav-link"><span>▤</span>Orders</a>
+        <a href="stops.html" class="nav-link"><span>□</span>Stops</a>
+        <a href="alerts.html" class="nav-link"><span>△</span>Alerts</a>
+        <a href="analytics.html" class="nav-link"><span>▥</span>Analytics</a>
+        <a href="settings.html" class="nav-link"><span>⚙</span>Settings</a>
+    </nav>
+     
+</aside>
+
+<main class="workspace">
+<header class="topbar"><div><h1 id="pageTitle">Route Optimizer</h1><p id="pageSubTitle">Driver D-12 (Alex Morgan)</p></div><div class="top-actions"><div class="weather" id="weatherBtn">☁️ <strong id="weatherTemp">18°C</strong> <small id="weatherCond">Light rain</small></div><button class="primary" id="topOptimize">ϟ &nbsp;Optimize Route</button></div></header>
+            <!-- VIEW 1: ROUTE OPTIMIZER (MAIN DEFAULT VIEW) -->
+            <div class="view-panel active" id="view-optimizer">
+                <!-- ROUTE FORM INPUTS -->
+                <section class="route-panel">
+                    <div class="input-group">
+                        <label for="source">Start location</label>
+                        <select id="source">
+                            <option value="">Loading locations...</option>
+                        </select>
+                    </div>
+                    <button class="swap-btn" id="swapLocationsBtn" title="Swap Start and Destination">⇄</button>
+                    <div class="input-group">
+                        <label for="destination">Destination</label>
+                        <select id="destination">
+                            <option value="">Loading locations...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="transportMode">Travel mode</label>
+                        <select id="transportMode">
+                            <option value="driving">🚗 Driving</option>
+                            <option value="cycling">🚲 Cycling</option>
+                            <option value="walking">🚶 Walking</option>
+                            <option value="public">🚌 Public transport</option>
+                        </select>
+                    </div>
+                    <button id="findRoute" class="primary find-button">↗ &nbsp;Find route</button>
+                </section>
+
+                <!-- CONTENT GRID -->
+                <section class="content-grid">
+                    <!-- LEFT COLUMN -->
+                    <div class="left-column">
+                        <!-- SUMMARY METRICS PANEL -->
+                        <section class="summary-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <h2>Optimized for current conditions</h2>
+                                    <span class="live-badge" id="liveTrafficBadge">● Live traffic</span>
+                                </div>
+                                <span class="check">✓</span>
+                            </div>
+                            <div class="metrics">
+                                <div>
+                                    <strong id="metricStops">7</strong>
+                                    <span>Stops</span>
+                                </div>
+                                <div>
+                                    <strong id="metricDistance">87 km</strong>
+                                    <span>Total distance</span>
+                                </div>
+                                <div>
+                                    <strong id="metricTime">4h 12m</strong>
+                                    <span>Est. time</span>
+                                </div>
+                                <div class="positive">
+                                    <strong id="metricSavings">-18 min</strong>
+                                    <span>vs original plan</span>
+                                </div>
+                            </div>
+                            <div class="notice">
+                                <div>
+                                    <b>ϟ &nbsp; Route re-optimized just now</b><br>
+                                    <span id="noticeText">Traffic on NH-15 near Tezpur is slower than usual. Bypass route applied.</span>
+                                </div>
+                                <a href="#" id="viewChangesBtn">View changes</a>
+                            </div>
+                        </section>
+
+                        <!-- STOPS LIST PANEL -->
+                        <section class="stops-panel">
+                            <div class="tabs">
+                                <button class="selected" id="tabStopsBtn">Stops (<span id="stopsCountLabel">7</span>)</button>
+                                <button id="tabUnassignedBtn">Unassigned (<span id="unassignedCountLabel">2</span>)</button>
+                                <button class="filter" id="filterStopsBtn" title="Filter stops">☷</button>
+                            </div>
+                            <div class="stop-list" id="stopsListContainer">
+                                <!-- Dynamic stop rows rendered via JS -->
+                            </div>
+                            <div class="list-footer">
+                                <a href="#" id="expandStopsBtn">＋ View all stops</a>
+                                <span id="stopsFooterStats">⌁ 86.6 km &nbsp; ◷ 4h 12m</span>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- RIGHT COLUMN -->
+                    <div class="right-column">
+                        <!-- MAP PANEL -->
+                        <section class="map-panel">
+                            <div class="map-toolbar">
+                                <span>Interactive route map</span>
+                                <div class="map-toolbar-actions">
+                                    <button class="sim-btn" id="toolbarSimulateBtn">▶ Play Track</button>
+                                    <label>
+                                        <span>▣ Live traffic</span>
+                                        <input type="checkbox" id="trafficToggle" checked>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="map"></div>
+                        </section>
+
+                        <!-- OVERVIEW PANEL -->
+                        <section class="overview-panel">
+                            <div class="panel-heading">
+                                <h2>Route Overview</h2>
+                                <a href="#" id="overviewCompareBtn">Original vs optimized</a>
+                            </div>
+                            <div class="overview-content">
+                                <div class="legend">
+                                    <p><i class="dot purple"></i>Driving <span id="legDriving">2h 48m</span><em id="legDrivingDiff">-12m</em></p>
+                                    <p><i class="dot blue"></i>Stop time <span id="legStop">1h 24m</span><em id="legStopDiff">+2m</em></p>
+                                    <p><i class="dot orange"></i>Breaks <span id="legBreaks">20m</span></p>
+                                    <p><i class="dot gray"></i>Buffer <span id="legBuffer">20m</span><em id="legBufferDiff">-8m</em></p>
+                                    <hr>
+                                    <p><strong>Total</strong><strong id="legTotal">4h 12m</strong><em id="legTotalDiff">-18m</em></p>
+                                </div>
+                                <div class="donut" id="donutChart">
+                                    <strong id="donutStopsCount">7</strong>
+                                    <span>Stops</span>
+                                </div>
+                                <div class="counts">
+                                    <p>♧ <strong id="countPickups">2</strong><span>Pickups</span></p>
+                                    <p>♧ <strong id="countDeliveries">5</strong><span>Deliveries</span></p>
+                                    <p>♧ <strong>1</strong><span>Return to depot</span></p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="routeResult" class="route-result">
+                    <span>Choose a start and destination to calculate a live route or click <strong>Optimize Route</strong> to sequence all active stops.</span>
+                </section>
+            </div>
+
+</main>
+</div>
+    <!-- MODAL: ADD STOP -->
+    <div class="modal-overlay" id="addStopModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Add Stop / Pickup Point</h3>
+                <span class="modal-close" id="closeAddStopModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="newStopName">Location Name</label>
+                    <input type="text" id="newStopName" placeholder="e.g. Guwahati Cargo Hub">
+                </div>
+                <div class="input-group">
+                    <label for="newStopAddress">Address</label>
+                    <input type="text" id="newStopAddress" placeholder="e.g. GS Road, Guwahati, Assam">
+                </div>
+                <div class="input-group">
+                    <label for="newStopType">Stop Type</label>
+                    <select id="newStopType">
+                        <option value="delivery">📦 Delivery</option>
+                        <option value="pickup">♧ Pickup</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="input-group">
+                        <label for="newStopWindow">Time Window</label>
+                        <input type="text" id="newStopWindow" value="10:00 - 11:00">
+                    </div>
+                    <div class="input-group">
+                        <label for="newStopDuration">Duration</label>
+                        <input type="text" id="newStopDuration" value="20 min">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" id="cancelAddStopModal">Cancel</button>
+                <button class="primary" id="saveNewStopBtn">Add to Route</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: VIEW CHANGES (OPTIMIZATION DETAILS) -->
+    <div class="modal-overlay" id="viewChangesModal">
+        <div class="modal-box" style="max-width: 580px;">
+            <div class="modal-header">
+                <h3>Route Optimization Details</h3>
+                <span class="modal-close" id="closeViewChangesModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--muted); font-size: 12px;">Comparing Original Route Sequence vs AI Optimized TSP Sequence:</p>
+                <div class="data-table-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Seq #</th>
+                                <th>Original Sequence</th>
+                                <th>Optimized Sequence</th>
+                                <th>ETA Delta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="optChangesTableBody">
+                            <!-- Rendered dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div style="background: var(--pale); padding: 12px; border-radius: 8px; font-size: 11.5px; color: var(--purple);">
+                    <strong>Summary Impact:</strong> Total distance reduced by <span id="modalDistSaved">18 km</span> (<span id="modalTimeSaved">24 mins</span> saved). Bypassed traffic bottleneck on NH-15.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="primary" id="closeViewChangesModalBtn">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

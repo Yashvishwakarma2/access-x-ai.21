@@ -1,0 +1,13 @@
+NER Smart Logistics - No Login Test Build
+
+Purpose:
+This build temporarily removes the prototype login page so the deployed site can be tested without a credential-entry page.
+
+Frontend entry:
+frontend/index.html is now the dashboard page.
+
+Backend API:
+https://access-x-ai21-production.up.railway.app/api
+
+Important:
+This build does not provide authentication. It is intended as a diagnostic deployment for the Safe Browsing warning.
