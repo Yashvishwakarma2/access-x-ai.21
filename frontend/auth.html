@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Access-X-AI | Secure access</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+<main class="auth-layout">
+    <section class="auth-intro">
+        <div class="brand-mark">ACCESS-X-AI</div>
+        <div class="intro-copy">
+            <p class="eyebrow">Northeast logistics intelligence</p>
+            <h1>Move every delivery with more certainty.</h1>
+            <p class="intro-text">Securely coordinate routes, fleet activity, and live operational decisions from one focused workspace.</p>
+        </div>
+        <div class="intro-footer"><span class="status-dot"></span>Operations workspace protected</div>
+    </section>
+    <section class="auth-panel" aria-labelledby="authTitle">
+        <div class="auth-card">
+            <div class="auth-heading">
+                <p class="eyebrow">Welcome back</p>
+                <h2 id="authTitle">Sign in to your workspace</h2>
+                <p id="authSubtitle">Use your Access-X-AI account to continue.</p>
+            </div>
+            <div class="auth-tabs" role="tablist" aria-label="Account access">
+                <button class="auth-tab active" type="button" data-mode="login" role="tab" aria-selected="true">Sign in</button>
+                <button class="auth-tab" type="button" data-mode="register" role="tab" aria-selected="false">Create account</button>
+            </div>
+            <form id="authForm" novalidate>
+                <div id="nameField" class="field hidden">
+                    <label for="name">Full name</label>
+                    <input id="name" name="name" type="text" autocomplete="name" maxlength="80">
+                </div>
+                <div class="field">
+                    <label for="email">Work email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@company.com">
+                </div>
+                <div class="field">
+                    <div class="field-label-row"><label for="password">Password</label><span id="passwordHint" class="field-hint hidden">12+ chars, upper, lower, number</span></div>
+                    <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required minlength="12"><button id="togglePassword" class="password-toggle" type="button" aria-label="Show password">Show</button></div>
+                </div>
+                <p id="authMessage" class="auth-message" role="alert" aria-live="polite"></p>
+                <button id="submitButton" class="submit-button" type="submit">Sign in securely</button>
+            </form>
+            <p class="security-note"><span aria-hidden="true">&#128274;</span> Passwords are encrypted before storage. Never share your password.</p>
+        </div>
+    </section>
+</main>
+<script src="auth.js"></script>
+</body>
+</html>

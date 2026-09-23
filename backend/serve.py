@@ -23,7 +23,7 @@ sys.path.insert(0, BACKEND_DIR)
 
 # Import the Flask app from the existing app.py (no changes to app.py)
 from app import app
-from flask import send_from_directory
+from flask import redirect, send_from_directory, session
 
 
 # ==========================================
@@ -36,6 +36,9 @@ def serve_index():
     before map.js, and return the modified HTML.
     No file on disk is changed.
     """
+    if "user_id" not in session:
+        return send_from_directory(FRONTEND_DIR, "auth.html")
+
     index_path = os.path.join(FRONTEND_DIR, "index.html")
 
     with open(index_path, "r", encoding="utf-8") as f:
@@ -62,6 +65,8 @@ app.view_functions["home"] = serve_index
 @app.route("/<path:filename>")
 def serve_static(filename):
     """Serve CSS, JS, and other frontend assets."""
+    if filename.endswith(".html") and filename != "auth.html" and "user_id" not in session:
+        return redirect("/")
     return send_from_directory(FRONTEND_DIR, filename)
 
 

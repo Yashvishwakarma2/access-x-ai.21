@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root { --ink: #172126; --muted: #6d7b7d; --line: #dce5e2; --teal: #087f76; --teal-dark: #05635e; --mist: #eff7f3; --cream: #f5f8f4; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; color: var(--ink); font-family: 'DM Sans', sans-serif; background: #edf4f0; }
+.auth-layout { min-height: 100vh; display: grid; grid-template-columns: minmax(300px, .92fr) minmax(420px, 1.08fr); }
+.auth-intro { display: flex; flex-direction: column; justify-content: space-between; padding: 42px clamp(32px, 7vw, 108px); color: #f5fbf7; background: #103f3b; background-image: radial-gradient(circle at 15% 18%, rgba(56, 151, 132, .35), transparent 34%), linear-gradient(145deg, #103f3b 10%, #0b5651 100%); }
+.brand-mark { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .15em; }
+.intro-copy { max-width: 510px; }
+.eyebrow { margin: 0 0 13px; color: #5eaaa0; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.auth-intro .eyebrow { color: #82c8bb; }
+h1, h2 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -.04em; }
+h1 { max-width: 500px; margin: 0; font-size: clamp(40px, 5vw, 70px); line-height: .98; }
+.intro-text { max-width: 420px; margin: 26px 0 0; color: #c2ddd6; font-size: 16px; line-height: 1.65; }
+.intro-footer { color: #a7d1c8; font-size: 12px; }
+.status-dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: #8ee0a6; box-shadow: 0 0 0 4px rgba(142, 224, 166, .13); }
+.auth-panel { display: grid; place-items: center; padding: 36px 24px; background: var(--cream); }
+.auth-card { width: min(100%, 448px); padding: clamp(28px, 5vw, 56px); background: #fff; border: 1px solid #e1e9e4; box-shadow: 0 20px 60px rgba(22, 71, 59, .12); }
+.auth-heading h2 { margin: 0; font-size: clamp(28px, 4vw, 37px); line-height: 1.05; }
+.auth-heading > p:last-child { margin: 13px 0 0; color: var(--muted); }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 34px 0 27px; padding: 4px; background: var(--mist); }
+.auth-tab { padding: 11px 8px; border: 0; color: var(--muted); background: transparent; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.auth-tab.active { color: var(--teal-dark); background: #fff; box-shadow: 0 2px 7px rgba(22, 71, 59, .1); }
+.field { margin-top: 18px; }
+.field label, .field-hint { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 700; }
+.field-hint { color: var(--muted); font-size: 10px; font-weight: 500; }
+.field-label-row { display: flex; justify-content: space-between; gap: 12px; }
+input { width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 3px; outline: none; color: var(--ink); background: #fcfefd; font: inherit; }
+input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(8, 127, 118, .12); }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 60px; }
+.password-toggle { position: absolute; top: 0; right: 0; height: 100%; padding: 0 13px; color: var(--teal-dark); font-size: 11px; font-weight: 700; cursor: pointer; }
+.auth-message { min-height: 18px; margin: 16px 0 0; color: #b23838; font-size: 12px; }
+.submit-button { width: 100%; margin-top: 5px; padding: 14px; border: 0; color: white; background: var(--teal); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+.submit-button:hover { background: var(--teal-dark); transform: translateY(-1px); }
+.submit-button:disabled { cursor: wait; opacity: .65; transform: none; }
+.security-note { margin: 25px 0 0; color: #83908e; font-size: 10px; line-height: 1.5; }
+.hidden { display: none !important; }
+@media (max-width: 760px) { .auth-layout { display: block; } .auth-intro { min-height: 330px; padding: 28px 25px; } h1 { font-size: 43px; } .intro-text { margin-top: 17px; font-size: 14px; } .auth-panel { min-height: calc(100vh - 330px); padding: 25px 16px; } .auth-card { padding: 30px 23px; } }

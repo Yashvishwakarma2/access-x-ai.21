@@ -1,10 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from flask_cors import CORS
+from werkzeug.security import check_password_hash, generate_password_hash
 import pandas as pd
 import os
 import requests
 import joblib
 import math
+import re
+import secrets
+import sqlite3
+import time
 
 def encode_polyline(points):
     def _encode_number(num):
@@ -71,7 +76,145 @@ def decode_polyline(polyline_str):
 
 
 app = Flask(__name__)
-CORS(app)
+app.config.update(
+    SECRET_KEY=os.environ.get("SECRET_KEY", secrets.token_hex(32)),
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=os.environ.get("COOKIE_SECURE", "0") == "1",
+    PERMANENT_SESSION_LIFETIME=60 * 60 * 8
+)
+CORS(app, supports_credentials=True)
+
+AUTH_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth.sqlite3")
+AUTH_ATTEMPTS = {}
+
+
+def get_auth_db():
+    connection = sqlite3.connect(AUTH_DB)
+    connection.row_factory = sqlite3.Row
+    return connection
+
+
+def initialize_auth_db():
+    with get_auth_db() as connection:
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+
+
+def client_is_rate_limited(key):
+    now = time.time()
+    attempts = [stamp for stamp in AUTH_ATTEMPTS.get(key, []) if now - stamp < 900]
+    AUTH_ATTEMPTS[key] = attempts
+    return len(attempts) >= 8
+
+
+def record_auth_attempt(key):
+    AUTH_ATTEMPTS.setdefault(key, []).append(time.time())
+
+
+initialize_auth_db()
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
+    return response
+
+
+@app.before_request
+def require_api_login():
+    if request.path.startswith("/api/") and request.path not in {
+        "/api/auth/login",
+        "/api/auth/register",
+        "/api/auth/me"
+    } and "user_id" not in session:
+        return jsonify({"success": False, "error": "Authentication required."}), 401
+
+
+@app.route("/api/auth/register", methods=["POST"])
+def register():
+    key = request.remote_addr or "unknown"
+    if client_is_rate_limited(key):
+        return jsonify({"success": False, "error": "Too many attempts. Try again later."}), 429
+
+    data = request.get_json(silent=True) or {}
+    name = str(data.get("name", "")).strip()
+    email = str(data.get("email", "")).strip().lower()
+    password = str(data.get("password", ""))
+
+    if not name or len(name) > 80 or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        return jsonify({"success": False, "error": "Enter a valid name and email address."}), 400
+    if len(password) < 12 or not re.search(r"[A-Z]", password) or not re.search(r"[a-z]", password) or not re.search(r"\d", password):
+        return jsonify({"success": False, "error": "Password must be at least 12 characters with upper, lower, and numeric characters."}), 400
+
+    try:
+        with get_auth_db() as connection:
+            cursor = connection.execute(
+                "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+                (name, email, generate_password_hash(password))
+            )
+            user_id = cursor.lastrowid
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "error": "Unable to create this account."}), 409
+
+    session.clear()
+    session.permanent = True
+    session["user_id"] = user_id
+    session["user_name"] = name
+    return jsonify({"success": True, "user": {"name": name, "email": email}}), 201
+
+
+@app.route("/api/auth/login", methods=["POST"])
+def login():
+    key = request.remote_addr or "unknown"
+    if client_is_rate_limited(key):
+        return jsonify({"success": False, "error": "Too many attempts. Try again later."}), 429
+
+    data = request.get_json(silent=True) or {}
+    email = str(data.get("email", "")).strip().lower()
+    password = str(data.get("password", ""))
+    with get_auth_db() as connection:
+        user = connection.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+
+    if not user or not check_password_hash(user["password_hash"], password):
+        record_auth_attempt(key)
+        return jsonify({"success": False, "error": "Invalid email or password."}), 401
+
+    session.clear()
+    session.permanent = True
+    session["user_id"] = user["id"]
+    session["user_name"] = user["name"]
+    return jsonify({"success": True, "user": {"name": user["name"], "email": user["email"]}})
+
+
+@app.route("/api/auth/me")
+def current_user():
+    if "user_id" not in session:
+        return jsonify({"authenticated": False})
+    with get_auth_db() as connection:
+        user = connection.execute("SELECT name, email FROM users WHERE id = ?", (session["user_id"],)).fetchone()
+    if not user:
+        session.clear()
+        return jsonify({"authenticated": False})
+    return jsonify({"authenticated": True, "user": dict(user)})
+
+
+@app.route("/api/auth/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"success": True})
 
 # ==========================================
 # BASE DIRECTORY & DATA PATHS
